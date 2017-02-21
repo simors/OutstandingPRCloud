@@ -1,4 +1,5 @@
 var AV = require('leanengine');
+var authFunc = require('./cloudFuncs/Auth')
 
 /**
  * 一个简单的云代码方法
@@ -6,3 +7,6 @@ var AV = require('leanengine');
 AV.Cloud.define('hello', function(request, response) {
   response.success('Hello world!');
 });
+
+AV.Cloud.define('hLifeModifyMobilePhoneVerified', authFunc.modifyMobilePhoneVerified)
+
