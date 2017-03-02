@@ -20,9 +20,12 @@ function getUserinfoById(request, response) {
       nickname: user.nickname ? user.nickname : user.mobilePhoneNumber,
       phone: user.mobilePhoneNumber,
       avatar: user.avatar,
-      gender: user.gender,
+      city: user.city,
       birthday: user.birthday,
-      identity: user.identity,
+      industry: user.industry,
+      name: user.username,
+      organization: user.organization,
+      profession: user.profession,
     }
     rsp.userInfo = userInfo
     response.success(rsp)

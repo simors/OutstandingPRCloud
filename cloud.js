@@ -8,5 +8,6 @@ AV.Cloud.define('hello', function(request, response) {
   response.success('Hello world!');
 });
 
-AV.Cloud.define('hLifeModifyMobilePhoneVerified', authFunc.modifyMobilePhoneVerified)
+AV.Cloud.define('prModifyMobilePhoneVerified', authFunc.modifyMobilePhoneVerified)
+AV.Cloud.define('prGetUserinfoById', authFunc.getUserinfoById)
 
