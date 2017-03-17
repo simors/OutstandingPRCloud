@@ -10,4 +10,6 @@ AV.Cloud.define('hello', function(request, response) {
 
 AV.Cloud.define('prModifyMobilePhoneVerified', authFunc.modifyMobilePhoneVerified)
 AV.Cloud.define('prGetUserinfoById', authFunc.getUserinfoById)
+AV.Cloud.define('prSetUserNickname', authFunc.setUserNickname)
+
 
