@@ -2,9 +2,22 @@
  * Created by wanpeng on 2017/3/22.
  */
 var request = require('request');
+var pinyin = require("pinyin");
 
 var config = {
   serviceUrl : "http://api.map.baidu.com"
+}
+
+/**
+ * 获取中文名字拼音首字母
+ * @param 省份/城市/地区中文名字
+ */
+function getAleph(area_name) {
+  var char = area_name.substr(0, 1)
+  if(char) {
+    var aleph = pinyin(char, {style: pinyin.STYLE_INITIALS, heteronym: false, segment: false})
+    return aleph[0][0][0]
+  }
 }
 
 function baiduGetSubAreaList(areaCode, cbk) {
@@ -31,18 +44,24 @@ function baiduGetAllCityList(areaCode, cbk) {
       country = json['content']
       var provinceList = country['sub']
       provinceList.forEach((province) => {
-        if(province['area_type'] == 2)
+        if(province['area_type'] == 2) {
+          delete province.geo
+          delete province.sub
+          province.aleph = getAleph(province['area_name'])
           allCityList.push(province)
+        }
         if(province['area_type'] == 1) {
           var cityList = province['sub']
           cityList.forEach((city) => {
-            if(city['area_type'] == 2)
+            if(city['area_type'] == 2) {
+              delete city.geo
+              city.aleph = getAleph(city['area_name'])
               allCityList.push(city)
+            }
           })
         }
       })
     }
-    console.log("allCityList:", allCityList)
     if (cbk) {
       cbk(allCityList);
     }
