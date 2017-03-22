@@ -16,7 +16,7 @@ function getAleph(area_name) {
   var char = area_name.substr(0, 1)
   if(char) {
     var aleph = pinyin(char, {style: pinyin.STYLE_NORMAL, heteronym: false, segment: false})
-    return aleph[0][0][0]
+    return aleph[0][0]
   }
 }
 
@@ -34,11 +34,12 @@ function baiduGetSubAreaList(areaCode, cbk) {
   });
 }
 
-function baiduGetAllCityList(areaCode, cbk) {
+function baiduGetAllCityMap(areaCode, cbk) {
   var url = config.serviceUrl + "/shangquan/forward/?qt=sub_area_list&ext=1&level=2&areacode=" + areaCode + "&business_flag=0"
   request(url, function(error, response, body){
     var country = null
     var allCityList = []
+    var cityMap = {}
     var json = JSON.parse(body)
     if (json && json['result'] && json['result']['error'] == "0") {
       country = json['content']
@@ -62,8 +63,21 @@ function baiduGetAllCityList(areaCode, cbk) {
         }
       })
     }
+    if(allCityList && allCityList.length > 0) {
+      allCityList = allCityList.sort(function (x, y) {
+        return x.aleph.localeCompare(y.aleph)
+      })
+      allCityList.forEach((city) => {
+        if(city.aleph[0].toUpperCase() in cityMap) {
+          cityMap[city.aleph[0].toUpperCase()].push(city)
+        } else {
+          cityMap[city.aleph[0].toUpperCase()] = []
+          cityMap[city.aleph[0].toUpperCase()].push(city)
+        }
+      })
+    }
     if (cbk) {
-      cbk(allCityList);
+      cbk(cityMap);
     }
   });
 }
@@ -112,9 +126,9 @@ function getDistrictList(request, response) {
   })
 }
 
-function getAllCityList(request, response) {
+function getAllCityMap(request, response) {
   var areaCode = request.params.areaCode
-  baiduGetAllCityList(areaCode, function (results) {
+  baiduGetAllCityMap(areaCode, function (results) {
     if(results) {
       response.success(results)
     }else {
@@ -128,7 +142,7 @@ var baiduFunc = {
   getCityList: getCityList,
   getDistrictList: getDistrictList,
   getSubAreaList: getSubAreaList,
-  getAllCityList: getAllCityList,
+  getAllCityMap: getAllCityMap,
 }
 
 module.exports = baiduFunc

@@ -17,5 +17,5 @@ AV.Cloud.define('prGetSubAreaList', baiduFunc.getSubAreaList)
 AV.Cloud.define('prGetProviceList', baiduFunc.getProviceList)
 AV.Cloud.define('prGetCityList', baiduFunc.getCityList)
 AV.Cloud.define('prGetDistrictList', baiduFunc.getDistrictList)
-AV.Cloud.define('prGetAllCityList', baiduFunc.getAllCityList)
+AV.Cloud.define('prGetAllCityMap', baiduFunc.getAllCityMap)
 
