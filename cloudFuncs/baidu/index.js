@@ -15,7 +15,7 @@ var config = {
 function getAleph(area_name) {
   var char = area_name.substr(0, 1)
   if(char) {
-    var aleph = pinyin(char, {style: pinyin.STYLE_INITIALS, heteronym: false, segment: false})
+    var aleph = pinyin(char, {style: pinyin.STYLE_NORMAL, heteronym: false, segment: false})
     return aleph[0][0][0]
   }
 }
